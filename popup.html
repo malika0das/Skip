@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TapSkip</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 320px;
+    font-family: system-ui, -apple-system, Roboto, sans-serif;
+    background: #111;
+    color: #fff;
+    padding-bottom: 20px;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #ff9500 0%, #e65c00 100%);
+    padding: 20px 18px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .icon-wrap {
+    width: 44px; height: 44px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .header h1  { font-size: 18px; font-weight: 700; }
+  .header p   { font-size: 12px; opacity: 0.88; margin-top: 3px; }
+
+  /* Sections */
+  .section { padding: 18px 18px 0; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+
+  /* Toggle row */
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1e1e1e;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .row-label  { font-size: 15px; font-weight: 500; }
+  .row-sub    { font-size: 12px; color: #666; margin-top: 3px; }
+
+  /* Toggle switch */
+  .switch { position: relative; width: 52px; height: 30px; flex-shrink: 0; }
+  .switch input { display: none; }
+  .track {
+    position: absolute; inset: 0;
+    background: #333; border-radius: 999px;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .thumb {
+    position: absolute; top: 3px; left: 3px;
+    width: 24px; height: 24px;
+    background: #fff; border-radius: 50%;
+    transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  input:checked + .track { background: #ff9500; }
+  input:checked ~ .thumb { transform: translateX(22px); }
+
+  /* Skip grid */
+  .skip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .skip-btn {
+    background: #1e1e1e;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: #aaa;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .skip-btn:active  { transform: scale(0.94); }
+  .skip-btn.active  {
+    border-color: #ff9500;
+    color: #ff9500;
+    background: rgba(255,149,0,0.1);
+  }
+
+  .divider { height: 1px; background: #1e1e1e; margin: 18px 0 0; }
+
+  /* How-to */
+  .howto {
+    margin: 18px 18px 0;
+    background: #1a1a1a;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .howto-title { font-size: 12px; font-weight: 700; color: #999; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.6px; }
+  .howto-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #bbb;
+    border-bottom: 1px solid #222;
+  }
+  .howto-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .howto-icon { font-size: 18px; width: 26px; text-align: center; }
+
+  .badge {
+    display: inline-block;
+    background: #ff9500;
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-left: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="icon-wrap">&#9193;</div>
+  <div>
+    <h1>TapSkip for Kiwi</h1>
+    <p>Double-tap any video to skip</p>
+  </div>
+</div>
+
+<div class="section" style="margin-top:18px">
+  <div class="section-title">Extension</div>
+  <div class="row">
+    <div>
+      <div class="row-label">Enable TapSkip</div>
+      <div class="row-sub">Works on all websites</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="enabledToggle" checked>
+      <div class="track"></div>
+      <div class="thumb"></div>
+    </label>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section" style="margin-top:18px">
+  <div class="section-title">Skip duration per tap</div>
+  <div class="skip-grid">
+    <div class="skip-btn" data-sec="3">3s</div>
+    <div class="skip-btn active" data-sec="5">5s</div>
+    <div class="skip-btn" data-sec="10">10s</div>
+    <div class="skip-btn" data-sec="15">15s</div>
+  </div>
+</div>
+
+<div class="howto">
+  <div class="howto-title">How to use</div>
+  <div class="howto-row">
+    <span class="howto-icon">&#8592;</span>
+    <span>Double-tap <b>left</b> side to rewind</span>
+  </div>
+  <div class="howto-row">
+    <span class="howto-icon">&#8594;</span>
+    <span>Double-tap <b>right</b> side to forward</span>
+  </div>
+  <div class="howto-row">
+    <span class="howto-icon">&#43;</span>
+    <span>Keep tapping to add more seconds</span>
+    <span class="badge">NEW</span>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
