@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TapSkip for Kiwi",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Double-tap left/right on any video to skip. More taps = more seconds.",
   "icons": {
     "16":  "icons/icon16.png",
@@ -20,7 +20,8 @@
     {
       "matches": ["*://*/*"],
       "js": ["content.js"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "all_frames": true
     }
   ],
   "permissions": ["storage"]
